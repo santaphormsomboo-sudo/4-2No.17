@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Homework Tracker 🐾</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ffb7b2;
+            --secondary-color: #ffdac1;
+            --bg-color: #f7f5f0;
+            --card-color: #ffffff;
+            --text-color: #6d5959;
+            --success-color: #b5ead7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Mitr', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-color);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(229, 203, 203, 0.4);
+            padding: 30px;
+            position: relative;
+            border: 4px solid #ffe5ec;
+        }
+
+        /* ตกแต่งหัวเว็บด้วยสัตว์น่ารักๆ */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .animal-decor {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: #ff8b94;
+            margin-bottom: 15px;
+        }
+
+        /* ส่วนนับคะแนน/จำนวนงาน */
+        .counter-box {
+            display: flex;
+            justify-content: space-around;
+            background: var(--secondary-color);
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .counter-item {
+            text-align: center;
+        }
+
+        .counter-num {
+            font-size: 1.4rem;
+            color: #ff7c7c;
+            display: block;
+        }
+
+        /* ฟอร์มส่งงาน */
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ffdac1;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ffb7b2;
+            box-shadow: 0 0 8px rgba(255, 183, 178, 0.5);
+        }
+
+        .btn-add {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+
+        .btn-add:hover {
+            background: #ff9aa2;
+        }
+
+        /* รายการงาน */
+        .task-list {
+            list-style: none;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .task-item {
+            background: #fff9f6;
+            border: 2px solid #ffe5ec;
+            padding: 12px 15px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+
+        .task-item.completed {
+            background: #f0fff4;
+            border-color: var(--success-color);
+            opacity: 0.8;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #a09090;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        /* สไตล์ปุ่มติ๊กถูกแบบน่ารัก */
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ffb7b2;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+            background: white;
+        }
+
+        .task-item.completed .checkbox-custom {
+            background: #b5ead7;
+            border-color: #b5ead7;
+            color: white;
+        }
+
+        .task-item.completed .checkbox-custom::after {
+            content: "✓";
+        }
+
+        .task-text {
+            font-size: 0.95rem;
+            word-break: break-word;
+            flex: 1;
+        }
+
+        .task-text[contenteditable="true"] {
+            border-bottom: 2px dashed #ffb7b2;
+            outline: none;
+            background: #fff;
+            padding: 2px 5px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+            border-radius: 50%;
+            transition: transform 0.1s;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.2);
+        }
+
+        /* ตกแต่งก้นกล่องด้วยสัตว์น่ารักๆ */
+        .footer-stamps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div class="animal-decor" id="mascot">🐰</div>
+            <h1>บันทึกการส่งงานของคนเก่ง ✨</h1>
+        </div>
+
+        <div class="counter-box">
+            <div class="counter-item">
+                <span class="counter-num" id="total-count">0</span>
+                <span>งานทั้งหมด</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-num" id="done-count">0</span>
+                <span>ส่งแล้ว (เสร็จสิ้น)</span>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="task-input" placeholder="พิมพ์ชื่องานตรงนี้เลยจ้า..." maxlength="50">
+            <button class="btn-add" id="btn-add">➕</button>
+        </div>
+
+        <ul class="task-list" id="task-list">
+            </ul>
+
+        <div class="footer-stamps">
+            <span>🐱</span>
+            <span>🐻</span>
+            <span>🦊</span>
+            <span>🐶</span>
+        </div>
+    </div>
+
+    <script>
+        // รายชื่อสัตว์ที่จะสุ่มเปลี่ยนเป็นมาสคอตเวลาทำงานเสร็จ
+        const mascots = ['🐰', '🐹', '🐻', '🐼', '🐨', '🐯', '🦁'];
+        
+        const taskInput = document.getElementById('task-input');
+        const btnAdd = document.getElementById('btn-add');
+        const taskList = document.getElementById('task-list');
+        const totalCount = document.getElementById('total-count');
+        const doneCount = document.getElementById('done-count');
+        const mascot = document.getElementById('mascot');
+
+        let tasks = [];
+
+        // ฟังก์ชันอัปเดตตัวเลขและหน้าจอ
+        function updateUI() {
+            taskList.innerHTML = '';
+            
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = `task-item ${task.completed ? 'completed' : ''}`;
+                
+                li.innerHTML = `
+                    <div class="task-left">
+                        <div class="checkbox-custom" onclick="toggleTask(${index})"></div>
+                        <span class="task-text" contenteditable="false" onblur="saveEdit(${index}, this)">${task.text}</span>
+                    </div>
+                    <div class="action-btns">
+                        <button class="btn-action" onclick="editTask(${index}, this)">✏️</button>
+                        <button class="btn-action" onclick="deleteTask(${index})">❌</button>
+                    </div>
+                `;
+                taskList.appendChild(li);
+            });
+
+            // อัปเดตตัวนับ
+            totalCount.textContent = tasks.length;
+            const completedCount = tasks.filter(t => t.completed).length;
+            doneCount.textContent = completedCount;
+
+            // สุ่มเปลี่ยนมาสคอตแก้เบื่อเมื่อมียอดเปลี่ยน
+            if(tasks.length > 0) {
+                const randomIndex = Math.floor(Math.random() * mascots.length);
+                mascot.textContent = mascots[randomIndex];
+            }
+        }
+
+        // เพิ่มงานใหม่
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') return;
+            
+            tasks.push({ text: text, completed: false });
+            taskInput.value = '';
+            updateUI();
+        }
+
+        // สลับสถานะ เสร็จสิ้น / ยังไม่เสร็จ
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            updateUI();
+        }
+
+        // เปิดโหมดแก้ไขชื่อทำงาน
+        function editTask(index, button) {
+            const taskItem = button.closest('.task-item');
+            const textSpan = taskItem.querySelector('.task-text');
+            
+            // สลับสถานะให้พิมพ์ได้
+            textSpan.contentEditable = true;
+            textSpan.focus();
+            
+            // เลื่อนเคอร์เซอร์ไปท้ายสุด
+            const range = document.createRange();
+            const sel = window.getSelection();
+            range.selectNodeContents(textSpan);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+        // บันทึกคำที่แก้ไขหลังจากกดยกเลิกโฟกัส (คลิกที่อื่น)
+        function saveEdit(index, spanElement) {
+            const newText = spanElement.textContent.trim();
+            if (newText === '') {
+                deleteTask(index);
+            } else {
+                tasks[index].text = newText;
+                spanElement.contentEditable = false;
+                updateUI();
+            }
+        }
+
+        // ลบงาน
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            updateUI();
+        }
+
+        // Event Listeners สำหรับปุ่มและปุ่ม Enter
+        btnAdd.addEventListener('click', addTask);
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+    </script>
+</body>
+</html>
